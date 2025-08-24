@@ -114,12 +114,33 @@ XXXXX\\
 \thispagestyle{empty} % 首页不显示页码
 
 
-\section{研究背景}
+\section{goal}
+\subsection{solve computational problems}
+解决计算问题
+\subsection{prove correctness}
+证明算法的正确性    
+\subsection{argue efficiency}
+论证算法的效率
+Don't measure time, measure the number of operations.
+Use asymptotic analysis(渐进分析), which $O(n)$ means the upper bounds, $\Omega(n)$ means the lower bounds, and $\Theta(n)$ for both.
+O Notation: Non-negative function(非负函数) $g(n)$is in $O(f(n))$ if and only if there exists a positive real number $c$ and positive integer $n_0$ such that $g(n) \leq c \cdot f(n)$, for all $n > n_0$.
+$\Omega$ Notation: Non-negative function $g(n)$ is in $\Omega(f(n))$ 
+if and only if there exists a positive real number $c$ and positive integer $n_0$ 
+such that 
+\[
+c \cdot f(n) \leq g(n) \quad \text{for all } n \geq n_0.
+\]
+$\Theta$ Notation: Non-negative function $g(n)$ is in $\Theta(f(n))$ if and only if $g(n) \in O(f(n)) \cap \Omega(f(n))$.
 
 
+\section{What is a computational problem?}
+Some kind of predict, say that we can check. If given a input and output, we can check whether the output is correct for the input.
 
+\section{What is an algorithm?}
+some kind of functions that takes these inputs, maps(映射) it to a single output, and that output better be correct based on the problem.
+\section{RAM}
+Random access memory(RAM) means that we can randomly access different places in memory in constant time.(RAM 提供了常数时间的随机访问能力，使得我们可以直接跳到任意内存地址，而不需要顺序扫描)
 
-%%----------- 参考文献 -------------------%%
 %在reference.bib文件中填写参考文献，此处自动生成
 \newpage
 \reference
