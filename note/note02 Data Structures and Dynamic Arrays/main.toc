@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Interface(API and ADT) vs data structure}{1}{section.1}%
+\contentsline {section}{\numberline {2}Two main interfaces:set and sequence}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}static sequence interface}{1}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}dynamic sequence interface}{1}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}link list}{1}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}static array}{1}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}dynamic array(Python lists)}{1}{subsection.2.5}%
+\contentsline {section}{\numberline {3}amortization(摊还：把高昂操作的成本均摊到多次操作，分析平均复杂度)}{2}{section.3}%
