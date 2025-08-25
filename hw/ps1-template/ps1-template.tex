@@ -1,0 +1,209 @@
+%
+% 6.006 problem set 1 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{1}
+
+\title{6.006 Problem Set 1}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+$f_1 = log(n^n) = n \cdot log(n)$
+so $f_1 = \Theta(n \cdot log(n))$
+
+$f_2 = (log(n))^n$
+so $f_2 = \Theta((log(n))^n)$
+
+$f_3 = log(n^{6006}) = 6006 \cdot log(n)$
+so $f_3 = \Theta(log(n))$
+
+$f_4 = (log(n))^{6006}$
+so $f_4 = \Theta((log(n))^{6006})$
+
+$f_5 = log(log(6006n))$
+so $f_5 = \Theta(log(log(n)))$
+
+Obviously, $f_2 > f_4 > f_3 > f_5$. 
+For $f_1$,$\frac{f_1}{f_2} = \frac{n \cdot log(n)}{(log(n))^n} = \frac{n}{(log(n))^{n-1}}$ 
+when $n$ is large enough, $\frac{n}{(log(n))^{n-1}} = \frac{n}{(n-1) \cdot (log(n))^{n-2}} = ... = 0$
+so $f_1 < f_2$.$\frac{f_1}{f_4} = \frac{n \cdot log(n)}{(log(n))^{6006}} = \frac{n}{(log(n))^{6005}} = \infty $
+so $f_1 > f_4$.
+
+so $f_2 > f_1 > f_4 > f_3 > f_5$. The answer is $(f_5,f_3,f_4,f_1,f_2)$
+\problempart % Problem 1b
+$(\{f_1,f_2\},f_5,\{f_3,f_4\})$
+\problempart % Problem 1c
+$(\{f_2,f_5\},f_4,f_1,f_3)$
+\problempart % Problem 1d
+$(f_5,f_4,f_2,f_3,f_1)$
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+To reverse $k$ items in $D$ starting from index $i$, we can repeatedly delete each item 
+at position $i$ and re-insert it at position $i+k-1$. Since each delete and insert costs 
+$O(\log n)$ and we perform $k$ such operations, the total running time is $O(k \log n)$.
+\problempart % Problem 2b
+To move the $k$ items in $D$ starting from index $i$ to be in front of the item at 
+index $j$, we first delete the $k$ items one by one from index $i$ (each time the next item 
+to be moved remains at position $i$). Then we re-insert them in order at position $j$ 
+(adjusting $j$ to $j-k$ if $j > i$ after deletion). Both the deletion and insertion phases 
+cost $O(k \log n)$, so the total running time is $O(k \log n)$.
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+\paragraph{Data structure.}
+Represent the binder as the concatenation \(L \mid M \mid R\):
+\begin{itemize}
+  \item \(L\): pages strictly to the left of bookmark \(A\) (a deque implemented by a circular dynamic array).
+  \item \(M\): pages strictly between bookmarks \(A\) and \(B\) (deque).
+  \item \(R\): pages strictly to the right of bookmark \(B\) (deque).
+\end{itemize}
+Bookmarks are the \emph{boundaries}: \(A\) sits between \(L\) and \(M\); \(B\) sits between \(M\) and \(R\).
+Let \(\ell=|L|\), \(m=|M|\), \(r=|R|\), and \(n=\ell+m+r\).
+Index \(i\) maps in \(O(1)\) to
+\[
+\text{page}(i)=
+\begin{cases}
+L[i] & 0\le i<\ell,\\
+M[i-\ell] & \ell\le i<\ell+m,\\
+R[i-\ell-m] & \ell+m\le i<n.
+\end{cases}
+\]
+Each deque supports amortized \(O(1)\) push/pop at both ends and \(O(1)\) random access; total space is \(O(n)\).
+
+\paragraph{Operations and running times.}
+\begin{itemize}
+  \item \textbf{\texttt{build(X)}}: set \(L\gets[\,]\), \(R\gets[\,]\), \(M\gets X\) in order. 
+        \emph{Time:} \(O(|X|)\) worst-case.
+
+  \item \textbf{\texttt{place\_mark(i, m)}} (\(m\in\{A,B\}\) between page \(i\) and \(i+1\)):
+        If \(m=A\), adjust the boundary so that \(|L|=i+1\) by moving items between \(L\) and \(M\)
+        using \(\texttt{pop/push}\) at the appropriate ends; if \(m=B\), make \(|L|+|M|=i+1\) by moving between \(M\) and \(R\).
+        \emph{Time:} \(O(n)\) worst-case.
+
+  \item \textbf{\texttt{read\_page(i)}}: use the mapping above to read from \(L\), \(M\), or \(R\).
+        \emph{Time:} \(O(1)\) worst-case.
+
+  \item \textbf{\texttt{shift\_mark(m, d)}} with \(d\in\{-1,1\}\):
+        If \(m=A\): 
+        \(d=+1\) moves \(\texttt{pop\_front}(M)\to\texttt{push\_back}(L)\);
+        \(d=-1\) moves \(\texttt{pop\_back}(L)\to\texttt{push\_front}(M)\).
+        If \(m=B\): 
+        \(d=+1\) moves \(\texttt{pop\_front}(R)\to\texttt{push\_back}(M)\);
+        \(d=-1\) moves \(\texttt{pop\_back}(M)\to\texttt{push\_front}(R)\).
+        \emph{Time:} \(O(1)\) amortized.
+
+  \item \textbf{\texttt{move\_page(m)}}:
+        If \(m=A\), move the page just after \(A\) to just before \(B\):
+        \(\texttt{pop\_front}(M)\to\texttt{push\_back}(M)\).
+        If \(m=B\), move the page just after \(B\) to just before \(A\):
+        \(\texttt{pop\_front}(R)\to\texttt{push\_back}(L)\).
+        \emph{Time:} \(O(1)\) amortized.
+\end{itemize}
+
+\paragraph{Why amortized \(O(1)\)?}
+All edits touch only deque ends. Circular dynamic arrays resize by constant factors, so each element
+is moved only \(O(1)\) times over its lifetime; rare \(O(n)\) resizes are spread over \(\Theta(n)\) cheap operations,
+yielding \(O(1)\) amortized per end-operation.
+
+\[
+\begin{array}{l|c}
+\text{operation} & \text{time} \\\hline
+\texttt{build(X)} & O(|X|)\ \text{(worst)}\\
+\texttt{place\_mark(i,m)} & O(n)\ \text{(worst)}\\
+\texttt{read\_page(i)} & O(1)\ \text{(worst)}\\
+\texttt{shift\_mark(m,d)} & O(1)\ \text{(amortized)}\\
+\texttt{move\_page(m)} & O(1)\ \text{(amortized)}
+\end{array}
+\]
+\newpage
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+\problempart % Problem 4b
+\problempart % Problem 4c
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
